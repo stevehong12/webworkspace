@@ -5,7 +5,7 @@ from dir import Dir
 from percept import Percept
 
 WALL, PIT, WUMPUS, GOLD, EMPTY = "W", "P", "U", "G", "."
-SAFE_STARTS = {(1, 1), (1, 2), (2, 1)}
+SAFE_STARTS = {(1, 1)}
 
 @dataclass
 class World:
@@ -76,23 +76,31 @@ class World:
             cy += d.dy
         return False
 
-    def print_map(self):
+    def print_map(self, agent_x=None, agent_y=None, agent_dir=None):
         print("Map (W: Wall, P: Pit, U: Wumpus, G: Gold, .: Empty)")
 
-        # x축 좌표 출력 (칸 간 간격 맞춰서)
-        print("   " + " ".join(f"{x + 1:2}" for x in range(self.size)))
+        size = 6
+        dir_symbols = {
+            'N': '↑',
+            'E': '→',
+            'S': '↓',
+            'W': '←',
+        }
 
-        for y in range(self.size):
-            # y축 좌표 출력 후 행 내용 출력
-            row = f"{y + 1:2} "
-            for x in range(self.size):
-                if self.grid[y][x] == WALL:
+        print("   " + " ".join(f"{x:2}" for x in range(size)))
+
+        for y in range(size):
+            row = f"{y:2} "
+            for x in range(size):
+                if (x, y) == (agent_x, agent_y) and agent_dir in dir_symbols:
+                    row += dir_symbols[agent_dir] + "  "
+                elif self.grid[y][x] == WALL:
                     row += "W  "
-                elif (x + 1, y + 1) == self.gold:
+                elif (x, y) == self.gold:
                     row += "G  "
-                elif (x + 1, y + 1) in self.wumpi:
+                elif (x, y) in self.wumpi:
                     row += "U  "
-                elif (x + 1, y + 1) in self.pits:
+                elif (x, y) in self.pits:
                     row += "P  "
                 else:
                     row += ".  "

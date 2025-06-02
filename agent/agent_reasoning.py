@@ -42,10 +42,11 @@ class AgentReasoning(AgentNavigation):
             self.pending_shot = None
 
     def _decide(self, p: Percept) -> str:
+        ''' 초기 상태에 북쪽을 보고 행동함
         if self.initial_wait:
             self.initial_wait = False
             return "TurnLeft"
-
+        '''
         if (self.x, self.y) == (1, 1) and p.breeze and self.start_targets:
             return self._plan(self.start_targets.popleft())
 
@@ -104,7 +105,8 @@ class AgentReasoning(AgentNavigation):
             if self.world.tile_has_live_wumpus(self.x, self.y):
                 self.definite_wumpus.add((self.x, self.y))
                 self.safe.discard((self.x, self.y))
-
+        # 행동 처리 후 현재 위치, 방향 반영된 맵 출력
+        self.world.print_map(agent_x=self.x, agent_y=self.y, agent_dir=self.dir.name)
         self._log(step, act if not dead else act + "(DEAD)", p)
         self.prev = (self.x, self.y)
         return not dead

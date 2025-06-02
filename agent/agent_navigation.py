@@ -29,7 +29,7 @@ class AgentNavigation(AgentLogging):
                     score, best = s, pos
         return best
 
-    def _nearest_safe(self) -> Optional[Tuple[int, int]]:#현재 위치에서 가장 가까운 (맨해튼 거리 기준) 안전한 칸 중 방문하지 않은 칸
+    def _nearest_safe(self) -> Optional[Tuple[int, int]]:#현재 위치에서 가장 가까운  안전한 칸 중 방문하지 않은 칸
         for pos in sorted(
             self.safe, key=lambda t: abs(t[0] - self.x) + abs(t[1] - self.y)
         ):

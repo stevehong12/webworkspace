@@ -24,7 +24,7 @@ class AgentBase:
     stench_dirs: Set[Dir] = field(default_factory=set)
     breeze_cells: List[Tuple[int, int]] = field(default_factory=list)
 
-    initial_wait: bool = True # 초기행동 조정
+    #initial_wait: bool = True # 초기행동 조정
     pending_shot: Optional[Dir] = None#..?
     prev: Tuple[int, int] = (1, 1) #이전 위치 좌표 저장
     #시작 영역에서 방문할 목표 위치를 순서대로 관리하는 큐
